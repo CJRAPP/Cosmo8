@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Cosmo In Real Life</title>
+  <link rel="stylesheet" href="css/scratch-style.css"/>
+  <style>
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+
+<!-- Link to cosmo.html -->
+<div class="button-container">
+    <a href="cosmo-game.html">
+      <button type="button">Go to Cosmo's Game</button>
+    </a>
+  </div>
+  
+<body>
+  <!-- Top Navigation -->
+  <nav>
+    <a href="index.html">Back to Home Page</a>
+  </nav>
+
+  <!-- Jump to Video Button -->
+  <div class="jump-link">
+    <a href="#video">Jump to Cosmo's Dance Moves Video</a>
+  </div>
+
+  <!-- Heading -->
+  <header>
+    <h1>Cosmo's Love for BYU Sports</h1>
+  </header>
+
+  <!-- Image -->
+  <div class="section">
+    <h2>Cosmo Repin the Y</h2>
+    <img src="https://brightspotcdn.byu.edu/dims4/default/6c3e435/2147483647/strip/true/crop/4000x4000+1000+0/resize/1200x1200!/quality/90/?url=https%3A%2F%2Fbrigham-young-brightspot-us-east-2.s3.us-east-2.amazonaws.com%2Fe3%2F1f%2F627eda5b4126a3e60febefad7d8d%2F19wsft-vs-colorado-state-0380-1.jpg" alt="Cosmo Image" class="cosmo" />
+  </div>
+
+  <!-- Embedded YouTube Video with anchor -->
+  <div class="section video-section" id="video">
+    <h2>Cosmo Showing Off His Dance Moves</h2>
+    <div class="responsive-video">
+      <iframe 
+        width="100%" height="450"
+        src="https://www.youtube.com/embed/H9yoIm8Bh9w" 
+        title="Cosmo Showing Off His Dance Moves"
+        frameborder="0" 
+        allowfullscreen
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share">
+      </iframe>
+    </div>
+  </div>
+
+  <!-- Ordered list with embedded unordered list -->
+  <div class="section">
+    <h2>Cosmo's Top 3 Favorite BYU Sports Nation Memories</h2>
+    <ol>
+      <li>BYU's win over Michigan in the 1984 National Championship!
+        <ul>
+          <li>Cosmo's favorite head coach LaVell Edwards coached the team!</li>
+          <li>Robbie Bosco led the offense as QB!</li>
+          <li>BYU went 13-0 that season!</li>
+        </ul>
+      </li>
+      <li>Taysom Hill Ran Almost 300 Yards against UT!
+        <ul>
+          <li>On 9/7/23, Taysom Hill rushed for 259 yards!</li>
+          <li>He scored 3 rushing touchdowns!</li>
+          <li>Taysom Hill played so well, that less than a day after BYU beat UT, UT fired their defensive coordinator!</li>
+        </ul>
+      </li>
+      <li>Jimmer Fredette's 2011 Season!
+        <ul>
+          <li>He set a BYU Basketball record for most points in a single game with 52 points vs New Mexico!</li>
+          <li>He was the nation's leading scorer with an average of 28.9 points per game!</li>
+          <li>He drew national attention sparking "Jimmermania", eventually winning several national player of the year awards!</li>
+        </ul>
+      </li>
+    </ol>
+  </div>
+
+  <!-- Tableau Embedded -->
+  <div class="section tableau-container" id="tableau">
+    <h2>Cosmo's Football Stats</h2>
+  
+    <div class='tableauPlaceholder' id='viz1744837257734' style='position: relative'>
+      <noscript>
+        <a href='#'>
+          <img alt='Points Difference Dashboard' src='https://public.tableau.com/static/images/BY/BYUFootballPointsDifferenceSince2016/PointsDifferenceDashboard/1_rss.png' style='border: none' />
+        </a>
+      </noscript>
+      <object class='tableauViz' style='display:none;'>
+        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+        <param name='embed_code_version' value='3' />
+        <param name='site_root' value='' />
+        <param name='name' value='BYUFootballPointsDifferenceSince2016/PointsDifferenceDashboard' />
+        <param name='tabs' value='no' />
+        <param name='toolbar' value='yes' />
+        <param name='static_image' value='https://public.tableau.com/static/images/BY/BYUFootballPointsDifferenceSince2016/PointsDifferenceDashboard/1.png' />
+        <param name='animate_transition' value='yes' />
+        <param name='display_static_image' value='yes' />
+        <param name='display_spinner' value='yes' />
+        <param name='display_overlay' value='yes' />
+        <param name='display_count' value='yes' />
+        <param name='language' value='en-US' />
+      </object>
+    </div>
+  
+    <script type='text/javascript'>
+      var divElement = document.getElementById('viz1744837257734');
+      var vizElement = divElement.getElementsByTagName('object')[0];
+      if (divElement.offsetWidth > 800) {
+        vizElement.style.width = '1000px';
+        vizElement.style.height = '827px';
+      } else if (divElement.offsetWidth > 500) {
+        vizElement.style.width = '100%';
+        vizElement.style.height = '827px';
+      } else {
+        vizElement.style.width = '100%';
+        vizElement.style.height = '1227px';
+      }
+      var scriptElement = document.createElement('script');
+      scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+      vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    </script>
+  </div>
+  
+</body>
+</html>

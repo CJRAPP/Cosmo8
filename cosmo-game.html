@@ -1,0 +1,237 @@
+<!DOCTYPE html> 
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Cosmo Maze Game</title>
+  <link rel="stylesheet" href="css/cosmos-style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
+  <style>
+    body {
+      background-color: #0047BA;
+      color: white;
+      font-family: 'Press Start 2P', cursive;
+      text-align: center;
+    }
+
+    #game-container {
+      display: grid;
+      grid-template-columns: repeat(20, 30px);
+      grid-template-rows: repeat(10, 30px);
+      margin: 20px auto;
+      width: fit-content;
+    }
+
+    .cell {
+      width: 30px;
+      height: 30px;
+      border: 1px solid #0047BA;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .wall {
+      background-color: #001f3f;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      background-color: white;
+      border-radius: 50%;
+      z-index: 1;
+    }
+
+    .eaten {
+      display: none;
+    }
+
+    .cosmo {
+      background-image: url('assets/img/Cosmo.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 2;
+    }
+
+    .ghost {
+      background-image: url('assets/img/Utah.png');
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      z-index: 3;
+    }
+
+    #mobile-controls {
+      margin-top: 20px;
+    }
+
+    #mobile-controls button {
+      font-size: 20px;
+      margin: 5px;
+      padding: 10px;
+    }
+
+    #score {
+      margin-top: 10px;
+      font-size: 16px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🏈 Cosmo's Maze</h1>
+  <div id="game-container"></div>
+  <div id="score">Score: 0</div>
+
+  <!-- Mobile Controls -->
+  <div id="mobile-controls">
+    <button onclick="simulateKey('ArrowUp')">↑</button><br>
+    <button onclick="simulateKey('ArrowLeft')">←</button>
+    <button onclick="simulateKey('ArrowDown')">↓</button>
+    <button onclick="simulateKey('ArrowRight')">→</button>
+  </div>
+
+  <script>
+    const container = document.getElementById("game-container");
+    const scoreDisplay = document.getElementById("score");
+
+    const width = 20;
+    const height = 10;
+    let score = 0;
+
+    const layout = [
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+      [0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,0],
+      [0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,1,0,0],
+      [0,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,0],
+      [0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0],
+      [0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,1,0,1,1,0],
+      [0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,1,0,0,0,0],
+      [0,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,0],
+      [0,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1,0],
+      [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
+    ];
+
+    let cosmoIndex = 1 + 1 * width;
+    let ghostIndex = 1 + 2 * width;
+
+    function drawBoard() {
+      container.innerHTML = '';
+      for (let row = 0; row < height; row++) {
+        for (let col = 0; col < width; col++) {
+          const cell = document.createElement("div");
+          cell.classList.add("cell");
+
+          const cellIndex = row * width + col;
+
+          if (layout[row][col] === 0) {
+            cell.classList.add("wall");
+          } else {
+            const dot = document.createElement("div");
+            dot.classList.add("dot");
+            if (layout[row][col] === 2) {
+              dot.classList.add("eaten");
+            }
+            cell.appendChild(dot);
+          }
+
+          if (cellIndex === cosmoIndex) {
+            const cosmo = document.createElement("div");
+            cosmo.classList.add("cosmo");
+            cell.appendChild(cosmo);
+          }
+
+          if (cellIndex === ghostIndex) {
+            const ghost = document.createElement("div");
+            ghost.classList.add("ghost");
+            cell.appendChild(ghost);
+          }
+
+          container.appendChild(cell);
+        }
+      }
+    }
+
+    function moveCosmo(e) {
+      const dir = { ArrowUp: -width, ArrowDown: width, ArrowLeft: -1, ArrowRight: 1 }[e.key];
+      if (!dir) return;
+
+      const nextIndex = cosmoIndex + dir;
+      const row = Math.floor(nextIndex / width);
+      const col = nextIndex % width;
+
+      if (layout[row] && layout[row][col] !== 0) {
+        if (layout[row][col] === 1) {
+          layout[row][col] = 2;
+          score += 10;
+          scoreDisplay.textContent = `Score: ${score}`;
+          checkWin();
+        }
+
+        cosmoIndex = nextIndex;
+        checkCollision();
+        drawBoard();
+      }
+    }
+
+    function simulateKey(key) {
+      moveCosmo({ key });
+    }
+
+    function moveGhost() {
+      const directions = [-1, 1, -width, width];
+      let moved = false;
+
+      while (!moved) {
+        const dir = directions[Math.floor(Math.random() * directions.length)];
+        const nextIndex = ghostIndex + dir;
+        const row = Math.floor(nextIndex / width);
+        const col = nextIndex % width;
+
+        if (layout[row] && layout[row][col] !== 0) {
+          ghostIndex = nextIndex;
+          moved = true;
+        }
+      }
+
+      drawBoard();
+      checkCollision();
+    }
+
+    function checkCollision() {
+      if (ghostIndex === cosmoIndex) {
+        alert("Caught by a Utah Player! Game Over!");
+        location.reload();
+      }
+    }
+
+    function checkWin() {
+      for (let row = 0; row < height; row++) {
+        for (let col = 0; col < width; col++) {
+          if (layout[row][col] === 1) {
+            return; // Still dots left
+          }
+        }
+      }
+
+      alert("Rise and Shout, the Cougars are Out! You Won!");
+      location.reload();
+    }
+
+    document.addEventListener("keydown", moveCosmo);
+    setInterval(moveGhost, 600);
+    drawBoard();
+  </script>
+</body>
+</html>
